@@ -1,0 +1,18 @@
+<table style="border: 1px solid">
+
+
+<tr style="background: #CCCCCC;">
+    <th>Employee Code</th>
+  <th>Pto Date</th>
+</tr>
+<% @pto_date.each do |pto| -%>
+    <tr>
+        <td>
+          <%= pto.emp_no %>
+        </td>
+        <td>
+          <%= pto.pto_date %>
+        </td>
+    </tr>
+<% end -%>
+</table>

@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<%= form_for(@pto) do |f| %>
+<table>
+  <tr>
+    <td>Employee Name</td>
+    <td><select id="" name=""></select> </td>
+  </tr>
+  <tr>
+    <td>PTO Date</td>
+    <td>
+
+    </td>
+    <!--<td> <input type="text" id="datepicker"></td>-->
+  </tr>
+  <tr>
+    <td><button>Save</button></td>
+    <td><button>Cancel</button></td>
+  </tr>
+</table>
+<% end %>
+<script>
+    $(function() {
+        $( "#datepicker" ).datepicker();
+    });
+</script>

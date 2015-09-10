@@ -1,0 +1,112 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<%= form_for @pto, :url => leave_requests_path, :html => { :id => "new_leave" }  do |f| %>
+    <table class="table" style="width: 50%;">
+      <tr>
+        <td>Employee Name</td>
+        <td>
+          <div class="col-sm-12"> <%= select_tag   "pto_request[emp_no]", options_for_select(@emp_name), :prompt => "Select Employee",:style=>"width:173px;" ,:class=>"form-control" %></div>
+        </td>
+
+      </tr>
+      <tr>
+        <td>
+          Leave Type
+        </td>
+        <td>
+          <div class="col-sm-12"><%= select_tag  "pto_request[leave_type]", options_for_select(["Work From Home","Casual Leave","Privilege Leave","LOP"]), :prompt => "Select Leave Type",:style=>"width:173px;" ,:class=>"form-control" %></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          From Date
+        </td>
+        <td>
+          <div class="col-sm-5"> <%= f.text_field :from_date ,{:id=>'txtFromDate',:class=>"form-control",:style=>"width: 173px;"}%></div>
+          <div class="col-sm-5"><%= select_tag  "pto_request[from_duration]", options_for_select(["Session 1","Session 2"]), :prompt => "Select Session",:id=>"ddlFromDate" ,:style=>"width:173px;",:class=>"form-control" %></div>
+        </td>
+      </tr>
+      <tr>
+        <td>To Date</td>
+        <td>
+          <div class="col-sm-5"><%= f.text_field :to_date ,{:id=>'txtToDate',:class=>"form-control",:style=>"width: 173px;"} %></div>
+            <div class="col-sm-5"><%= select_tag  "pto_request[to_duration]", options_for_select(["Session 1","Session 2"]), :prompt => "Select Session",:id=>"ddlToDate" ,:style=>"width:173px;",:class=>"form-control" %></div>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <%= f.submit 'Save' ,id: 'btnSave', class: 'btn btn-sm btn-primary' %>
+          <%= link_to 'Cancel', delete_leave_leave_requests_path, class: 'btn btn-sm btn-primary' %></td>
+      </tr>
+    </table>
+<% end %>
+<script>
+    $(document).ready(function(){
+        $("#txtFromDate").datepicker({
+        dateFormat: 'dd/mm/yy',
+            numberOfMonths: 1,
+            onSelect: function(selected) {
+                $("#txtToDate").datepicker("option","minDate", selected);
+                if($("#txtFromDate").val() == $("#txtToDate").val())
+                {
+                    $("#ddlToDate").hide();
+                    $("#ddlFromDate option[value='Full Day']").remove();
+                    $('#ddlFromDate').append( new Option("Full Day","Full Day") );
+                }
+                else
+                {
+                    $("#ddlFromDate option[value='Full Day']").remove();
+                    $("#ddlToDate").show();
+                }
+
+            }
+        });
+        $("#txtToDate").datepicker({
+            dateFormat: 'dd/mm/yy',
+            numberOfMonths: 1,
+            onSelect: function(selected) {
+                $("#txtFromDate").datepicker("option","maxDate", selected);
+                if($("#txtFromDate").val() == $("#txtToDate").val())
+                {
+                $("#ddlToDate").hide();
+                $("#ddlFromDate option[value='Full Day']").remove();
+                $('#ddlFromDate').append( new Option("Full Day","Full Day") );
+                }
+                else
+                {
+                    $("#ddlFromDate option[value='Full Day']").remove();
+                    $("#ddlToDate").show();
+                }
+
+            }
+        });
+        $( "#btnSave" ).click(function() {
+            var emp_name  = $("#pto_request_emp_no option:selected").text();
+            var leave_type  = $("#pto_request_leave_type option:selected").text();
+            var from_date =$( "#txtFromDate").val();
+            var to_date =$( "#txtToDate").val();
+            if(emp_name=="Select Employee")
+            {
+                alert('Please Select Employee Name');
+                return false;
+            }
+            else if(leave_type=="Select Leave Type")
+            {
+                alert('Please Select Leave Type');
+                return false;
+            }
+            else
+            {
+                $("#new_leave").submit();
+            }
+        });
+
+
+    });
+
+
+
+</script>

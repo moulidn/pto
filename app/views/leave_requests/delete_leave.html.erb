@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+<%= form_for(@pto) do |f| %>
+    <table class="table" style="width: 73%;">
+      <tr>
+        <td>Employee Name</td>
+        <td>  <%= select_tag  "emp_name", options_for_select(@emp_name), :prompt => "Select Employee" %></td>
+        <td>Employee Id</td>
+        <td> <%= f.text_field :emp_id ,{:id=>'txtEmpId'} %></td>
+        <td>Leave Date</td>
+        <td> <%= f.text_field :pto_dt ,{:id=>'txtPtoDate'} %></td>
+        <td><%= f.submit 'Search' %></td>
+      </tr>
+    </table>
+<% end %>
+<table class="table"  style="width: 73%;">
+
+  <tr>
+    <th>Employee Name</th>
+    <th>Employee Code</th>
+    <th>Leave Date</th>
+    <th>Leave Type</th>
+    <th>Leave Duration</th>
+    <th>Delete</th>
+  </tr>
+  <% @pto_date.each do |pto| %>
+      <tr>
+        <td>
+          <%= pto.Emp_Name %>
+        </td>
+        <td>
+          <%= pto.emp_no %>
+        </td>
+        <td>
+          <%= pto.pto_date %>
+        </td>
+        <td>
+          <%= pto.leave_type %>
+        </td>
+        <td>
+          <%= pto.leave_duration %>
+        </td>
+        <td>
+          <a href="javascript:void(0);" onclick="javascript:Delete_Leave('<%= pto.id %>');">Delete</a>
+        </td>
+      </tr>
+  <% end -%>
+</table>
+<script>
+    $(document).ready(function(){
+        $("#txtPtoDate").datepicker({
+            dateFormat: 'yy-mm-dd',
+            numberOfMonths: 1
+        });
+    });
+    function Delete_Leave(leave_id)
+    {
+        var txt;
+        var r = confirm("Do you want to delete");
+        if (r == true) {
+            $.ajax({
+                type: "DELETE",
+                url: "<%= leave_delete_leave_requests_path %>",
+                data: { 'leave_id': leave_id },
+                success: function (data) {
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<%#= form_for(@pto) do |f| %>
+    <table style="border: 1px solid;">
+      <tr>
+        <td>Employee Name</td>
+        <td>
+          <%= select_tag  "pto_request[emp_no]", options_for_select(@emp_name), :prompt => "Select Employee" %>
+        </td>
+      </tr>
+      <tr>
+        <td>PTO Date</td>
+        <td>
+          <%= f.text_field :from_date ,{:id=>'txtFromDate'} %>
+          <%= f.text_field :to_date ,{:id=>'txtToDate'} %>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><%= f.submit 'Save' %> <button>Cancel</button></td>
+      </tr>
+    </table>
+<%# end %>
+<script>
+    $(document).ready(function(){
+        $("#txtFromDate").datepicker({
+        dateFormat: 'dd/mm/yy',
+            numberOfMonths: 1,
+            onSelect: function(selected) {
+                $("#txtToDate").datepicker("option","minDate", selected)
+            }
+        });
+        $("#txtToDate").datepicker({
+            dateFormat: 'dd/mm/yy',
+            numberOfMonths: 1,
+            onSelect: function(selected) {
+                $("#txtFromDate").datepicker("option","maxDate", selected)
+            }
+        });
+    });
+</script>
