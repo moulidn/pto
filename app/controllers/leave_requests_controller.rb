@@ -73,7 +73,7 @@ class LeaveRequestsController < ApplicationController
     @pto ="";
     if ( params[:emp_name] == nil && params[:emp_id] == nil && params[:pto_dt] == nil)
       @emp_name =  PtoRequest.all.distinct.pluck(:Emp_Name)
-      @pto_date = PtoRequest.all
+      @pto_date = PtoRequest.all.order(pto_date: :desc)
     else
       @emp_name =  PtoRequest.all.distinct.pluck(:Emp_Name)
       p = {
@@ -82,7 +82,7 @@ class LeaveRequestsController < ApplicationController
           :pto_date => params[:pto_dt],
       }
       p.reject!{|b,a| a.nil? or a.eql?"" }
-      @pto_date = PtoRequest.where(p)
+      @pto_date = PtoRequest.where(p).order(pto_date: :desc)
     end
   end
 
